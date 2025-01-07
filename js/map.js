@@ -1,6 +1,120 @@
 mapboxgl.accessToken =
   'pk.eyJ1IjoicG1hZ3R1bGlzMDciLCJhIjoiY2wzdTgyNzh0MjlqNjNjbTl4YWdyczE2aiJ9.OusPbpMc7Ue0YyVgHINiAA';
-// Create a function to initialize the search functionality
+// Create legend elements
+function createLegend(map) {
+  const legendContainer = document.createElement('div');
+  legendContainer.className = 'map-legend';
+  legendContainer.style.position = 'absolute';
+  legendContainer.style.bottom = '25px';
+  legendContainer.style.left = '10px';
+  legendContainer.style.padding = '10px';
+  legendContainer.style.backgroundColor = 'white';
+  legendContainer.style.borderRadius = '4px';
+  legendContainer.style.boxShadow = '0 1px 2px rgba(0,0,0,0.1)';
+  legendContainer.style.zIndex = '1';
+
+  // Add title
+  const title = document.createElement('div');
+  title.style.fontWeight = 'bold';
+  title.style.marginBottom = '5px';
+  title.textContent = 'Voter Turnout (%)';
+  legendContainer.appendChild(title);
+
+  // Create two separate legends
+  const provinceLegend = createProvinceLegendItems();
+  const municipalityLegend = createMunicipalityLegendItems();
+
+  provinceLegend.style.display = 'block';
+  municipalityLegend.style.display = 'none';
+
+  legendContainer.appendChild(provinceLegend);
+  legendContainer.appendChild(municipalityLegend);
+
+  document.getElementById('map').appendChild(legendContainer);
+
+  // Toggle between legends based on zoom level
+  map.on('zoom', () => {
+    const zoom = map.getZoom();
+    if (zoom >= 6) {
+      provinceLegend.style.display = 'none';
+      municipalityLegend.style.display = 'block';
+    } else {
+      provinceLegend.style.display = 'block';
+      municipalityLegend.style.display = 'none';
+    }
+  });
+}
+
+function createProvinceLegendItems() {
+  const container = document.createElement('div');
+  
+  const items = [
+    { color: '#e6f598', label: '65-70' },
+    { color: '#ffffbf', label: '71-75' },
+    { color: '#fee08b', label: '76-80' },
+    { color: '#fdae61', label: '81-85' },
+    { color: '#f46d43', label: '86-90' },
+    { color: '#d53e4f', label: '91-95' },
+    { color: '#9e0142', label: '96-100' }
+  ];
+
+  items.forEach(item => {
+    const row = createLegendItem(item.color, item.label);
+    container.appendChild(row);
+  });
+
+  return container;
+}
+
+function createMunicipalityLegendItems() {
+  const container = document.createElement('div');
+  
+  const items = [
+    { color: '#5e4fa2', label: '45-50' },
+    { color: '#3288bd', label: '51-55' },
+    { color: '#66c2a5', label: '56-60' },
+    { color: '#abdda4', label: '61-65' },
+    { color: '#e6f598', label: '66-70' },
+    { color: '#ffffbf', label: '71-75' },
+    { color: '#fee08b', label: '76-80' },
+    { color: '#fdae61', label: '81-85' },
+    { color: '#f46d43', label: '86-90' },
+    { color: '#d53e4f', label: '91-95' },
+    { color: '#9e0142', label: '96-100' }
+  ];
+
+  items.forEach(item => {
+    const row = createLegendItem(item.color, item.label);
+    container.appendChild(row);
+  });
+
+  return container;
+}
+
+function createLegendItem(color, label) {
+  const item = document.createElement('div');
+  item.style.display = 'flex';
+  item.style.alignItems = 'center';
+  item.style.marginBottom = '3px';
+
+  const colorBox = document.createElement('div');
+  colorBox.style.width = '20px';
+  colorBox.style.height = '20px';
+  colorBox.style.backgroundColor = color;
+  colorBox.style.marginRight = '5px';
+  colorBox.style.border = '1px solid #ccc';
+
+  const text = document.createElement('span');
+  text.textContent = label;
+  text.style.fontSize = '12px';
+
+  item.appendChild(colorBox);
+  item.appendChild(text);
+
+  return item;
+}
+
+  // Create a function to initialize the search functionality
 function initializeSearch(map) {
   let searchData = [];
   
@@ -157,6 +271,7 @@ map.dragRotate.disable();
 // Add the search functionality after the map loads
 map.on('load', function () {
   initializeSearch(map);
+  createLegend(map);
   
   // Rest of your existing map.on('load') code...
   map.resize();
