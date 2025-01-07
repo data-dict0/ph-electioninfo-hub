@@ -177,11 +177,6 @@ a.page-link:hover {
   text-decoration: underline;
 }
 
-#mobile-header {
-  margin-top: 30px;
-  display: none;
-}
-
 @media only screen and (max-width: 500px) {
   #map {
     width: 90%;
@@ -214,29 +209,7 @@ a.page-link:hover {
     font-size: 14px;
   }
 
-  #single-line {
-    margin-left: -20px;
-  }
-
-  #single-line,
-  img,
-  svg {
-    margin-bottom: 2em;
-    width: 365px;
-  }
-
-  #small-multiples {
-    transform: translate(5%);
-    width: 100%;
-    align-items: center;
-    font-family: 'Roboto', sans-serif;
-  }
-
   .col-sm-12 {
     overflow: auto;
-  }
-
-  #mobile-header {
-    display: block;
   }
 }
