@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Philippine election information hub</title>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://d3js.org/d3.v6.js"></script>
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"
+    />
+    <script
+      src="https://kit.fontawesome.com/092b142fb0.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="./styles.css" />
+    <meta property="og:title" content="Philippine election information hub" />
+    <meta
+      property="og:description"
+      content="Data, graphs and maps on Philippine elections."
+    />
+    <meta property="og:type" content="article" />
+    <meta
+      property="og:image"
+      content="https://data-dict.com/ph-electioninfo-hub/assets/share-card.png"
+    />
+    <meta property="og:image:width" content="1000" />
+    <meta property="og:image:height" content="500" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:creator" content="@prinzmagtulis" />
+  </head>
+
+  <body>
+    <!-- nav bar -->
+    <nav class="navbar navbar-expand-xl bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand text-white" href="https://data-dict.com"
+          >Philippine election information hub</a
+        >
+        <button
+          class="navbar-toggler ml-auto"
+          type="button"
+          id="burger"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ms-auto">
+            <!-- social media -->
+            <div class="share-btn-container">
+              <a href="#" class="facebook-btn">
+                <i class="fab fa-facebook"></i>
+              </a>
+              <a href="#" class="linkedin-btn">
+                <i class="fab fa-linkedin"></i>
+              </a>
+              <a href="#" class="whatsapp-btn">
+                <i class="fab fa-whatsapp"></i>
+              </a>
+            </div>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <br />
+
+    <!-- main -->
+    <div class="container">
+      <div id="text">
+        <h4>Voter turnout</h4>
+        <p>The Philippines has enjoyed a high voter turnout each election, although turnout has historically been lower during midterm elections than presidential elections.
+          In 2022 presidential elections, for instance, voter 84.1% of nationwide registered voters turned out to polls, compared with just 75.9% in the 2019 midterm elections
+          when the presidency and vice presidency are not at stake.
+        </p>
+
+        <p>The map below is color coded according to the <strong>2022 voter turnout</strong>, although additional voter information is available on the tooltip.</p>
+      </div>
+      <br />
+
+      <div class="container">
+        <div id="mobile-header">
+          <h4>Voter turnout</h4>
+          <p>
+            The map below is color coded according to the <strong>2022 voter turnout</strong>, although additional voter information is available on the tooltip.
+          </p>
+        </div>
+      </div>
+
+      <div id="map">
+        <!-- <div id="legend-title" class="legend-title">
+          <div class="legend">
+            <h4 class="title is-5">Mapping the Covid-19 pandemic</h4>
+            <p class="subtitle is-6">as of May 6, 2023</p>
+            <br />
+            <p>
+              Zoom in and click the map on the right to show regional,
+              provincial and municipal level data. Colors represent
+              <strong>cases per specific number of population. </strong>The
+              <strong>darker</strong> the shade, the higher the cases in the
+              area.
+            </p>
+          </div>
+        </div> -->
+        <script type="text/javascript" src="js/map.js"></script>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="block">
+        <p><em>By municipality</em></p>
+        <div id="voter_turnout"></div>
+      </div>
+
+      <hr />
+
+      <div class="block">
+        <h4>Registered voters</h4>
+        <h5>By age and generation</h5>
+        <p>
+          Comelec data showed that over 35% of registered Filipino voters in
+          2022, excluding overseas Filipinos, were millennials. Around a quarter
+          were members of the younger Generation Z, while about 15% were born
+          during the Baby Boomer era and earlier. Below are data by provincial
+          and municipal levels for 2022 and 2019 national elections.
+        </p>
+        <p><em>By province</em></p>
+      </div>
+
+      <select id="provinceSelect" style="display: none"></select>
+      <div id="loading">Loading data...</div>
+      <div id="generation_province">
+        <script type="text/javascript" src="js/province_generation.js"></script>
+      </div>
+
+      <hr />
+
+        <div class="block">
+
+        <h5>By gender, male registered voters</h5>
+        <p>
+          Nationwide, Comelec data showed that there are more women voters than men. But breaking down
+          by municipalities,  
+        </p>
+        <p><em>By municipality</em></p>
+        <div id="male_voters_muni"></div>
+      </div>
+
+      <br />
+      <br> 
+
+      <div class="block" style="clear: both">
+        <h5>Female registered voters</h5>
+        <p><em>By municipality</em></p>
+        <div id="female_voters_muni"></div>
+      </div>
+
+      <hr />
+
+      <div class="block">
+        <div id="note">
+          <p>
+            Raw data from the Commission on Elections in the Philippines was
+            cleaned and processed. Data for some municipalities in Bangsamoro
+            Autonomous Region in Muslim Mindanao (BARMM) are not available due
+            to recent Supreme Court ruling that removed some municipalities
+            originally bounded by the BARMM law from the region.
+          </p>
+
+          <p>
+            The Data Dictionary strived to ensure the veracity and comparability
+            of the data across both 2019 and 2022 national elections. Changes in
+            the number of legislative districts in some provinces as well as
+            their composition should have no bearing on the number of registered
+            voters and voter turnout in the area.
+          </p>
+
+          <p>
+            On generational data, the Data Dictionary followed the generational
+            segmentation provided by
+            <a
+              href="https://www.pewresearch.org/short-reads/2019/01/17/where-millennials-end-and-generation-z-begins/"
+              target="_blank"
+              >Pew Research Center</a
+            >. Voters aged 60 years old and above were not disaggregated.
+          </p>
+
+          <p>
+            Enhancements to the portal are ongoing. For feedback and
+            suggestions, please email the Data Dictionary.
+          </p>
+
+          <p>Source: Commission on Elections</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+      crossorigin="anonymous"
+    ></script>
+    <script src="jquery.js" , type="application/javascript"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    <script src="csv_to_table.js" , type="application/javascript"></script>
+    <script src="js/socials.js"></script>
+    <script src="js/mobile.js"></script>
+
+    <!-- CSV tables-->
+    <script>
+      CsvToHtmlTable.init({
+        csv_path: 'data/voter_turnout.csv',
+        element: 'voter_turnout',
+        csv_options: { separator: ',', delimiter: '"' },
+        datatables_options: { paging: true },
+        columns: { searchable: true },
+      });
+    </script>
+
+    <script>
+      CsvToHtmlTable.init({
+        csv_path: 'data/male_voters_municipality.csv',
+        element: 'male_voters_muni',
+        csv_options: { separator: ',', delimiter: '"' },
+        datatables_options: { paging: true },
+      });
+    </script>
+
+    <script>
+      CsvToHtmlTable.init({
+        csv_path: 'data/female_voters_municipality.csv',
+        element: 'female_voters_muni',
+        csv_options: { separator: ',', delimiter: '"' },
+        datatables_options: { paging: true },
+      });
+    </script>
+  </body>
+
+  <footer class="footer expand-xl bg-dark text-center text-white">
+    <!-- Copyright -->
+    <div class="container-fluid text-center p-2">
+      © 2025 Copyright:
+      <a class="text-white" href="https://pmagtulis.github.io/"
+        >The Data Dictionary Project</a
+      >
+    </div>
+    <!-- Copyright -->
+  </footer>
+</html>

@@ -1,2 +1,2 @@
-# ph-electioninfo-hub
-2025 Philippine election information hub
+# ph-elections-files
+Cleaned and private files and data on Philippine elections
