@@ -33,6 +33,12 @@ body {
   margin: 5em auto;
 }
 
+#generation_province {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 .mapboxgl-popup-content h4 {
   font-size: 1.2em;
   border-width: 0px 0px 0.5px 0px;
