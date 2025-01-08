@@ -17,7 +17,7 @@ function createLegend(map) {
   const title = document.createElement('div');
   title.style.fontWeight = 'bold';
   title.style.marginBottom = '5px';
-  title.textContent = 'Voter Turnout (%)';
+  title.textContent = '2022 voter turnout (%)';
   legendContainer.appendChild(title);
 
   // Create two separate legends
