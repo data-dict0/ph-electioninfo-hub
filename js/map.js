@@ -80,7 +80,8 @@ function createMunicipalityLegendItems() {
     { color: '#fdae61', label: '81-85' },
     { color: '#f46d43', label: '86-90' },
     { color: '#d53e4f', label: '91-95' },
-    { color: '#9e0142', label: '96-100' }
+    { color: '#9e0142', label: '96-100' },
+    { color: '#cccccc', label: 'No data' }
   ];
 
   items.forEach(item => {
