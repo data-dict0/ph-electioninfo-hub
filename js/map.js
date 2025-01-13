@@ -238,7 +238,7 @@ function initializeSearch(map) {
                  <h4>2022 Voter Turnout: ${item.properties["2022_average_voter_turnout"].toFixed(2)}%</h4>
                  <p>Male voter turnout: ${item.properties["2022_male_voter_turnout"].toFixed(2)}%</p>
                  <p>Female voter turnout: ${item.properties["2022_female_voter_turnout"].toFixed(2)}%</p><br>
-                 <p><em> 2019: ${item.properties["2019_female_voter_turnout"].toFixed(2)}%`
+                 <p><em> 2019: ${item.properties["2019_average_voter_turnout"].toFixed(2)}%`
           )
           .addTo(map);
 
