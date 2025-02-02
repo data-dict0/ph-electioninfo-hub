@@ -85,6 +85,57 @@
     <br />
 
     <!-- main -->
+     <div class="container">
+
+    <div class="block">
+      <h4>Registered voters</h4>
+      <div id="registered_2025"></div>
+      <p class="caption">Note: 2025 voter data as of Jan. 3, 2025.</p>
+      <hr>
+
+      <h5>By generation</h5>
+      <p>
+        Comelec data showed that over 35% of registered Filipino voters in
+        2022, excluding overseas Filipinos, were millennials. Around a quarter
+        were members of the younger Generation Z, while about 15% were born
+        during the Baby Boomer era and earlier. Below are data by provincial
+        and municipal levels for 2022 and 2019 national elections.
+      </p>
+      <p><em>By province, 2022 elections</em></p>
+    </div>
+
+    <select id="provinceSelect" style="display: none"></select>
+    <div id="loading">Loading data...</div>
+    <div id="generation_province">
+      <script type="text/javascript" src="js/province_gen.js"></script>
+    </div>
+
+    <hr />
+
+      <div class="block">
+
+      <h5>By gender</h5>
+      <h5>Male</h5>
+      <p>
+        Nationwide, Comelec data showed that there are more women voters than men. But breaking down
+        by municipalities, the discrepancies between male and female voters can be obvious. 
+      </p>
+      <p><em>By municipality</em></p>
+      <div id="male_voters_muni"></div>
+    </div>
+
+    <br />
+    <br> 
+
+    <div class="block" style="clear: both">
+      <h5>Female</h5>
+      <p><em>By municipality</em></p>
+      <div id="female_voters_muni"></div>
+    </div>
+
+    <br>
+
+
     <div class="container">
       <div id="text">
         <h4>Voter turnout</h4>
@@ -125,50 +176,8 @@
       <hr />
 
       <div class="block">
-        <h4>Registered voters</h4>
-        <h5>By age and generation</h5>
-        <p>
-          Comelec data showed that over 35% of registered Filipino voters in
-          2022, excluding overseas Filipinos, were millennials. Around a quarter
-          were members of the younger Generation Z, while about 15% were born
-          during the Baby Boomer era and earlier. Below are data by provincial
-          and municipal levels for 2022 and 2019 national elections.
-        </p>
-        <p><em>By province</em></p>
-      </div>
-
-      <select id="provinceSelect" style="display: none"></select>
-      <div id="loading">Loading data...</div>
-      <div id="generation_province">
-        <script type="text/javascript" src="js/province_gen.js"></script>
-      </div>
-
-      <hr />
-
-        <div class="block">
-
-        <h5>By gender, male registered voters</h5>
-        <p>
-          Nationwide, Comelec data showed that there are more women voters than men. But breaking down
-          by municipalities, the discrepancies between male and female voters can be obvious. 
-        </p>
-        <p><em>By municipality</em></p>
-        <div id="male_voters_muni"></div>
-      </div>
-
-      <br />
-      <br> 
-
-      <div class="block" style="clear: both">
-        <h5>Female registered voters</h5>
-        <p><em>By municipality</em></p>
-        <div id="female_voters_muni"></div>
-      </div>
-
-      <hr />
-
-      <div class="block">
         <div id="note">
+          <p>Updated: Feb. 3, 2025</p>
           <p>
             Raw data from the Commission on Elections in the Philippines was
             cleaned and processed. Data for some municipalities in Bangsamoro
@@ -207,6 +216,7 @@
           <p>Source: Commission on Elections</p>
         </div>
       </div>
+    </div>
     </div>
 
     <!-- JS -->
@@ -251,6 +261,15 @@
         datatables_options: { paging: true },
       });
     </script>
+
+<script>
+  CsvToHtmlTable.init({
+    csv_path: 'data/voters_2025.csv',
+    element: 'registered_2025',
+    csv_options: { separator: ',', delimiter: '"' },
+    datatables_options: { paging: true },
+  });
+</script>
   </body>
 
   <footer class="footer expand-xl bg-dark text-center text-white">

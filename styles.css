@@ -27,6 +27,10 @@ body {
   margin: 5px;
 }
 
+.caption {
+  font-size: 12px;
+}
+
 #map {
   width: 60%;
   height: 800px;
