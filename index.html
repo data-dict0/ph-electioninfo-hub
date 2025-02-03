@@ -51,105 +51,90 @@
         <a class="navbar-brand text-white" href="https://data-dict.com"
           >Philippine election information hub</a
         >
-        <button
-          class="navbar-toggler ml-auto"
-          type="button"
-          id="burger"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav ms-auto">
-            <!-- social media -->
-            <div class="share-btn-container">
-              <a href="#" class="facebook-btn">
-                <i class="fab fa-facebook"></i>
-              </a>
-              <a href="#" class="linkedin-btn">
-                <i class="fab fa-linkedin"></i>
-              </a>
-              <a href="#" class="whatsapp-btn">
-                <i class="fab fa-whatsapp"></i>
-              </a>
-            </div>
-          </ul>
-        </div>
       </div>
     </nav>
 
     <br />
 
     <!-- main -->
-     <div class="container">
-
-    <div class="block">
-      <h4>Registered voters</h4>
-      <div id="registered_2025"></div>
-      <p class="caption">Note: 2025 voter data as of Jan. 3, 2025.</p>
-      <hr>
-
-      <h5>By generation</h5>
-      <p>
-        Comelec data showed that over 35% of registered Filipino voters in
-        2022, excluding overseas Filipinos, were millennials. Around a quarter
-        were members of the younger Generation Z, while about 15% were born
-        during the Baby Boomer era and earlier. Below are data by provincial
-        and municipal levels for 2022 and 2019 national elections.
-      </p>
-      <p><em>By province, 2022 elections</em></p>
-    </div>
-
-    <select id="provinceSelect" style="display: none"></select>
-    <div id="loading">Loading data...</div>
-    <div id="generation_province">
-      <script type="text/javascript" src="js/province_gen.js"></script>
-    </div>
-
-    <hr />
+    <div class="container">
+      <div class="block">
+        <h4>Registered voters</h4>
+        <div id="registered_2025"></div>
+        <p class="caption">
+          Note: 2025 voter data as of Jan. 3, 2025. No 2022 data for
+          municipalities under the special geographic area. For 2019, voters in
+          barangays under the special area were originally counted under
+          Cotabato municipalities. See note at the bottom for more details.
+        </p>
+        <hr />
+      </div>
 
       <div class="block">
-
-      <h5>By gender</h5>
-      <h5>Male</h5>
-      <p>
-        Nationwide, Comelec data showed that there are more women voters than men. But breaking down
-        by municipalities, the discrepancies between male and female voters can be obvious. 
-      </p>
-      <p><em>By municipality</em></p>
-      <div id="male_voters_muni"></div>
-    </div>
-
-    <br />
-    <br> 
-
-    <div class="block" style="clear: both">
-      <h5>Female</h5>
-      <p><em>By municipality</em></p>
-      <div id="female_voters_muni"></div>
-    </div>
-
-    <br>
-
-
-    <div class="container">
-      <div id="text">
-        <h4>Voter turnout</h4>
-        <p>The Philippines has enjoyed a high voter turnout each election, although turnout has historically been lower during midterm elections than presidential elections.
-          In 2022 presidential elections, for instance, 84.1% of nationwide registered voters turned out to polls, compared with just 75.9% in the 2019 midterm elections
-          when the presidency and vice presidency were not at stake.
+        <h5>By generation</h5>
+        <p>
+          Comelec data showed that over 35% of registered Filipino voters in
+          2022, excluding overseas Filipinos, were millennials. Around a quarter
+          were members of the younger Generation Z, while about 15% were born
+          during the Baby Boomer era and earlier. Below are data by provincial
+          and municipal levels for 2022 and 2019 national elections.
         </p>
+        <p><em>By province, 2022 elections</em></p>
 
-        <p>The map below is color coded according to the <strong>2022 voter turnout</strong>, although additional voter information is available in the tooltip.</p>
+        <select id="provinceSelect" style="display: none"></select>
+        <div id="loading">Loading data...</div>
+        <div id="generation_province">
+          <script type="text/javascript" src="js/province_gen.js"></script>
+        </div>
+
+        <hr />
       </div>
+
+      <div class="block">
+        <h5>By gender</h5>
+        <h5>Male</h5>
+        <p>
+          Nationwide, Comelec data showed that there are more women voters than
+          men. But breaking down by municipalities, the discrepancies between
+          male and female voters can be obvious.
+        </p>
+        <p><em>By municipality</em></p>
+        <div id="male_voters_muni"></div>
+      </div>
+
+      <br />
       <br />
 
-      <div id="map">
-        <!-- <div id="legend-title" class="legend-title">
+      <div class="block" style="clear: both">
+        <h5>Female</h5>
+        <p><em>By municipality</em></p>
+        <div id="female_voters_muni"></div>
+      </div>
+
+      <br />
+
+      <div class="container">
+        <div id="text">
+          <h4>Voter turnout</h4>
+          <p>
+            The Philippines has enjoyed a high voter turnout each election,
+            although turnout has historically been lower during midterm
+            elections than presidential elections. In 2022 presidential
+            elections, for instance, 84.1% of nationwide registered voters
+            turned out to polls, compared with just 75.9% in the 2019 midterm
+            elections when the presidency and vice presidency were not at stake.
+          </p>
+
+          <p>
+            The map below is color coded according to the
+            <strong>2022 voter turnout</strong>, although additional voter
+            information is available in the tooltip.
+          </p>
+        </div>
+        <br />
+
+        <div id="map">
+          <!-- <div id="legend-title" class="legend-title">
           <div class="legend">
             <h4 class="title is-5">Mapping the Covid-19 pandemic</h4>
             <p class="subtitle is-6">as of May 6, 2023</p>
@@ -163,11 +148,10 @@
             </p>
           </div>
         </div> -->
-        <script type="text/javascript" src="js/map.js"></script>
+          <script type="text/javascript" src="js/map.js"></script>
+        </div>
       </div>
-    </div>
 
-    <div class="container">
       <div class="block">
         <p><em>By municipality</em></p>
         <div id="voter_turnout"></div>
@@ -180,10 +164,12 @@
           <p>Updated: Feb. 3, 2025</p>
           <p>
             Raw data from the Commission on Elections in the Philippines was
-            cleaned and processed. Data for some municipalities in Bangsamoro
-            Autonomous Region in Muslim Mindanao (BARMM) are not available due
-            to recent Supreme Court ruling that removed some municipalities
-            originally bounded by the BARMM law from the region.
+            cleaned and processed. For 2022, select barangays in Cotabato voted
+            separately from their mother municipalities. This was after the same
+            barangays voted to be part of the newly-established Bangsamoro
+            Autonomous Region in Muslim Mindanao (BARMM) in a plebiscite. Voters
+            in these barangays, therefore, were not included in the 2022 tally
+            of their municipalities, but were present in 2019.
           </p>
 
           <p>
@@ -206,17 +192,15 @@
 
           <p>
             Enhancements to the portal are ongoing. For feedback and
-            suggestions, please email <a href= "mailto:datadict@proton.me">the Data Dictionary</a>.
+            suggestions, please email
+            <a href="mailto:datadict@proton.me">the Data Dictionary</a>.
           </p>
 
-          <p>
-            Reporting, design and development by Prinz Magtulis
-          </p>
+          <p>Reporting, design and development by Prinz Magtulis</p>
 
           <p>Source: Commission on Elections</p>
         </div>
       </div>
-    </div>
     </div>
 
     <!-- JS -->
@@ -262,14 +246,14 @@
       });
     </script>
 
-<script>
-  CsvToHtmlTable.init({
-    csv_path: 'data/voters_2025.csv',
-    element: 'registered_2025',
-    csv_options: { separator: ',', delimiter: '"' },
-    datatables_options: { paging: true },
-  });
-</script>
+    <script>
+      CsvToHtmlTable.init({
+        csv_path: 'data/voters_2025.csv',
+        element: 'registered_2025',
+        csv_options: { separator: ',', delimiter: '"' },
+        datatables_options: { paging: true },
+      });
+    </script>
   </body>
 
   <footer class="footer expand-xl bg-dark text-center text-white">
