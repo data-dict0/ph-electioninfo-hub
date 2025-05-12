@@ -78,16 +78,25 @@ function createTextContainer() {
 function createResponsiveSvg() {
     const dims = getDimensions();
     
-    // Remove existing SVG if it exists
-    const existingSvg = d3.select("#generation_province svg");
-    if (!existingSvg.empty()) {
-        existingSvg.remove();
+    // Check if the container exists
+    const container = d3.select("#generation_province");
+    if (container.empty()) {
+        console.error("Container not found when creating SVG");
+        return null;
     }
     
-    const svg = d3.select("#generation_province")
+    // Remove existing SVG if it exists
+    container.select("svg").remove();
+    
+    // Create new SVG with explicit viewport settings for mobile
+    const svgContainer = container
         .append("svg")
         .attr("width", dims.width)
         .attr("height", dims.height)
+        .style("display", "block") // Ensure SVG is displayed
+        .style("margin", "0 auto"); // Center the chart
+        
+    const svg = svgContainer
         .append("g")
         .attr("transform", `translate(${dims.margin.left},${dims.margin.top})`);
     
@@ -152,7 +161,7 @@ function updateChart(data, province) {
             .attr("dy", "1em");
     }
     
-    const yAxis = svg.append("g")
+    svg.append("g")
         .style("font-size", dims.isMobile ? "13px" : "16px")
         .style("font-family", "Roboto")
         .call(d3.axisLeft(y)
@@ -250,17 +259,24 @@ document.addEventListener('DOMContentLoaded', function() {
             // Initial chart render
             updateChart(data, provinces[0]);
             
+            // Track current dimensions to avoid unnecessary redraws
+            let lastWidth = window.innerWidth;
+            
             // Safe resize handler function
             function handleResize() {
-                // Store current dropdown value before any DOM changes
-                const provinceSelect = document.getElementById("provinceSelect");
-                const currentValue = provinceSelect ? provinceSelect.value : provinces[0];
+                const currentWidth = window.innerWidth;
                 
-                // Only update the SVG and dimensions, don't recreate the dropdown
-                const svg = createResponsiveSvg();
-                
-                // Update the chart with current province
-                updateChart(data, currentValue);
+                // Only update if the width actually changed significantly (>50px)
+                if (Math.abs(currentWidth - lastWidth) > 50) {
+                    lastWidth = currentWidth;
+                    
+                    // Get current dropdown value
+                    const provinceSelect = document.getElementById("provinceSelect");
+                    const currentValue = provinceSelect ? provinceSelect.value : provinces[0];
+                    
+                    // Update the chart
+                    updateChart(data, currentValue);
+                }
             }
             
             // Add window resize handler with debounce
@@ -274,6 +290,25 @@ document.addEventListener('DOMContentLoaded', function() {
             dropdown.on("change", function() {
                 updateChart(data, this.value);
             });
+            
+            // Ensure the chart is visible when scrolling on mobile
+            // Use IntersectionObserver to track visibility
+            const chartObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // If the chart container is visible but SVG is missing, redraw
+                        const svgElement = d3.select("#generation_province svg");
+                        if (svgElement.empty()) {
+                            const provinceSelect = document.getElementById("provinceSelect");
+                            const currentValue = provinceSelect ? provinceSelect.value : provinces[0];
+                            updateChart(data, currentValue);
+                        }
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            // Observe the chart container
+            chartObserver.observe(container);
         })
         .catch(function(error) {
             console.error('Error loading the data:', error);
