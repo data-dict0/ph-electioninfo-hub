@@ -1,12 +1,23 @@
 // Function to get current dimensions based on container width
 function getDimensions() {
     const container = d3.select("#generation_province").node();
+    // Check if container exists
+    if (!container) {
+        console.error("Container #generation_province not found");
+        return { 
+            margin: {top: 40, right: 20, bottom: 70, left: 85},
+            width: 450,
+            height: 600,
+            isMobile: false
+        };
+    }
+    
     const containerWidth = container.getBoundingClientRect().width;
     const isMobile = containerWidth <= 480;
     
     // Set minimum width and height with mobile adjustments
-    const minWidth = isMobile ? 300 : 320;
-    const minHeight = isMobile ? 400 : 300;
+    const minWidth = isMobile ? 300 : 450;
+    const minHeight = isMobile ? 400 : 600;
     
     // Calculate new width and height
     const newWidth = Math.max(minWidth, containerWidth);
@@ -29,8 +40,19 @@ function getDimensions() {
 
 // Create text container with dropdown
 function createTextContainer() {
-    d3.select("#text_container").remove();
+    // Check if text container already exists
+    const existingContainer = d3.select("#text_container");
+    if (!existingContainer.empty()) {
+        // If it exists, just update the font size based on device
+        const dims = getDimensions();
+        existingContainer
+            .style("font-size", dims.isMobile ? "11px" : "16px");
+            
+        // Don't remove and recreate - that's causing the dropdown to disappear
+        return;
+    }
     
+    // Only create the container if it doesn't exist
     const dims = getDimensions();
     
     const textContainer = d3.select("#generation_province")
@@ -56,7 +78,11 @@ function createTextContainer() {
 function createResponsiveSvg() {
     const dims = getDimensions();
     
-    d3.select("#generation_province svg").remove();
+    // Remove existing SVG if it exists
+    const existingSvg = d3.select("#generation_province svg");
+    if (!existingSvg.empty()) {
+        existingSvg.remove();
+    }
     
     const svg = d3.select("#generation_province")
         .append("svg")
@@ -96,8 +122,10 @@ function updateChart(data, province) {
     const totalVoters = provinceData.reduce((sum, d) => sum + (+d.registered_voters), 0);
     
     // Update voters count text
-    d3.select("#voters_count")
-        .text(`, there are ${totalVoters.toLocaleString()} registered voters for 2025 elections.`);
+    const votersCount = d3.select("#voters_count");
+    if (!votersCount.empty()) {
+        votersCount.text(`, there are ${totalVoters.toLocaleString()} registered voters for 2025 elections.`);
+    }
     
     // Update scales domains
     x.domain(provinceData.map(d => d.generation));
@@ -169,60 +197,89 @@ function updateChart(data, province) {
             : (+d.registered_voters).toLocaleString());
 }
 
-// Load the CSV data
-d3.csv('data/2025_by_age_final.csv')
-    .then(function(data) {
-        // Hide loading message
-        d3.select("#loading").style("display", "none");
-        
-        // Create text container
-        createTextContainer();
-        
-        // Get unique provinces
-        const provinces = [...new Set(data.map(d => d.province))].sort();
-        
-        // Create and populate dropdown
-        const dropdown = d3.select("#dropdown_container")
-            .append("select")
-            .attr("id", "provinceSelect")
-            .style("font-family", "Roboto")
-            .style("font-size", "inherit")
-            .style("font-weight", "bold")
-            .style("margin", "0 5px")
-            .style("padding", "2px 5px")
-            .style("border-radius", "4px")
-            .style("max-width", "200px");
+// Ensure DOM is fully loaded before attaching events
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if container exists
+    const container = document.getElementById('generation_province');
+    if (!container) {
+        console.error("Container #generation_province not found");
+        return;
+    }
+
+    // Load the CSV data
+    d3.csv('data/2025_by_age_final.csv')
+        .then(function(data) {
+            // Hide loading message
+            const loadingElement = d3.select("#loading");
+            if (!loadingElement.empty()) {
+                loadingElement.style("display", "none");
+            }
             
-        dropdown
-            .selectAll("option")
-            .data(provinces)
-            .enter()
-            .append("option")
-            .text(d => d)
-            .attr("value", d => d);
-        
-        // Initial chart render
-        updateChart(data, provinces[0]);
-        
-        // Add window resize handler with debounce
-        let resizeTimeout;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => {
-                createTextContainer();
-                const dropdown = d3.select("#provinceSelect").remove();
-                d3.select("#dropdown_container").node().appendChild(dropdown.node());
-                updateChart(data, dropdown.property("value"));
-            }, 250);
+            // Create text container
+            createTextContainer();
+            
+            // Get unique provinces
+            const provinces = [...new Set(data.map(d => d.province))].sort();
+            
+            // Create and populate dropdown
+            const dropdownContainer = d3.select("#dropdown_container");
+            if (dropdownContainer.empty()) {
+                console.error("Dropdown container not found");
+                return;
+            }
+            
+            const dropdown = dropdownContainer
+                .append("select")
+                .attr("id", "provinceSelect")
+                .style("font-family", "Roboto")
+                .style("font-size", "inherit")
+                .style("font-weight", "bold")
+                .style("margin", "0 5px")
+                .style("padding", "2px 5px")
+                .style("border-radius", "4px")
+                .style("max-width", "200px");
+                
+            dropdown
+                .selectAll("option")
+                .data(provinces)
+                .enter()
+                .append("option")
+                .text(d => d)
+                .attr("value", d => d);
+            
+            // Initial chart render
+            updateChart(data, provinces[0]);
+            
+            // Safe resize handler function
+            function handleResize() {
+                // Store current dropdown value before any DOM changes
+                const provinceSelect = document.getElementById("provinceSelect");
+                const currentValue = provinceSelect ? provinceSelect.value : provinces[0];
+                
+                // Only update the SVG and dimensions, don't recreate the dropdown
+                const svg = createResponsiveSvg();
+                
+                // Update the chart with current province
+                updateChart(data, currentValue);
+            }
+            
+            // Add window resize handler with debounce
+            let resizeTimeout;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(handleResize, 250);
+            });
+            
+            // Update chart when selection changes
+            dropdown.on("change", function() {
+                updateChart(data, this.value);
+            });
+        })
+        .catch(function(error) {
+            console.error('Error loading the data:', error);
+            const loadingElement = d3.select("#loading");
+            if (!loadingElement.empty()) {
+                loadingElement.text("Error loading data. Please check the console for details.");
+            }
         });
-        
-        // Update chart when selection changes
-        dropdown.on("change", function() {
-            updateChart(data, this.value);
-        });
-    })
-    .catch(function(error) {
-        console.error('Error loading the data:', error);
-        d3.select("#loading")
-            .text("Error loading data. Please check the console for details.");
-    });
+});
